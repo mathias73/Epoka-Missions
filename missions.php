@@ -17,7 +17,7 @@ session_start();
         <a class="nav-link" href="deconnexion.php">Deconnexion</a>
       </li>
       <li class="nav-item ">
-        <a class="nav-link" href="#">Validation des missions</a>
+        <a class="nav-link" href="validMissions.php">Validation des missions</a>
       </li>
       <li class="nav-item ">
         <a class="nav-link" href="#">Paiement des frais</a>
@@ -29,10 +29,6 @@ session_start();
     </ul>
 </div>
 </nav>
-<?php
-    var_dump(  $_SESSION['no']);
-
-?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
 </body>
