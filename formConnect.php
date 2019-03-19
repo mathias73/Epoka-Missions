@@ -21,6 +21,7 @@ catch(Exception $e){
             
             $persinfo= $reqpers->fetch();
             $_SESSION['no'] = $persinfo[0];
+            $_SESSION['pers_responsable']=$persinfo[4];
             header ('Location: http://localhost/Epoka-Missions/missions.php?no='.$_SESSION['no']);
         } else {
             $erreur = "Mauvais numero ou mot de passe";

@@ -7,11 +7,10 @@ catch(Exception $e){
     die("Erreur :" . $e->getMessage());
 }
 
-$req = $bdd->query('Select pers_nom, pers_prenom, mis_dateDeb, mis_dateFin, Vil_Nom, mis_valider, mis_rembourser 
-FROM personnel, mission, ville 
-WHERE mis_PersoId = pers_id AND mis_VilleId = ville_Id');
+$req = $bdd->query('SELECT  pers_nom, pers_prenom, mis_dateDeb, mis_dateFin, Vil_Nom, mis_valider, mis_rembourser 
+                                              FROM personnel, mission, ville 
+                                              WHERE mis_PersoId = pers_id AND mis_VilleId = ville_Id');
 
-$reponse=$req->fetch();
 
 
 ?>
@@ -22,6 +21,7 @@ $reponse=$req->fetch();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Epoka Missions</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -35,7 +35,7 @@ $reponse=$req->fetch();
                 <a class="nav-link" href="validMissions.php">Validation des missions</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="#">Paiement des frais</a>
+                <a class="nav-link" href="paiementFrais.php">Paiement des frais</a>
             </li>
             <li class="nav-item ">
                 <a class="nav-link" href="#">Parametrage</a>
@@ -43,11 +43,64 @@ $reponse=$req->fetch();
         </ul>
     </div>
 </nav>
-<h2>Validation des missions de vos subordonnées</h2>
 <?php
-echo $reponse[0];
+if(!isset($_SESSION['pers_responsable']) OR $_SESSION['pers_responsable'] == false){
+    ?>
+    <p class="refus">Accés refusé !</p>
+    <?php
+}
+elseif(isset($_SESSION['pers_responsable']) OR $_SESSION['pers_responsable'] == true){
+    ?>
+    <h2>Validation des missions de vos subordonnées</h2>
+
+<?php
+
+echo '<table style="border: 1px solid; margin-left: 50px;">';
+echo '<tr>';
+echo '<td style="border: 1px solid">Nom</td><td style="border: 1px solid">Prenom</td><td style="border: 1px solid">Debut mission</td><td style="border: 1px solid">Fin mission</td><td style="border: 1px solid">Lieu mission</td><td style="border: 1px solid">Validation</td>';
+echo '</tr>';
+while ($reponse = $req->fetch()) {
+
+    echo '<tr>';
+
+    echo '<td style="border: 1px solid">';
+    echo $reponse['pers_nom'];
+    echo '</td>';
+    echo '<td style="border: 1px solid">';
+    echo $reponse['pers_prenom'];
+    echo '</td>';
+    echo '<td style="border: 1px solid">';
+    echo $reponse['mis_dateDeb'];
+    echo '</td>';
+    echo '<td style="border: 1px solid">';
+    echo $reponse['mis_dateFin'];
+    echo '</td>';
+    echo '<td style="border: 1px solid">';
+    echo $reponse['Vil_Nom'];
+    echo '</td>';
+    echo '<td style="border: 1px solid">';
+    if ($reponse['mis_valider'] == 1) {
+        echo 'Valider';
+    } else {
+        echo 'Non valider';
+    };
+    echo '</td>';
+    echo '<td style="border: 1px solid">';
+    if ($reponse['mis_rembourser'] == 1) {
+        echo 'Rembourser';
+    } else {
+        echo 'Non rembourser';
+    };
+    echo '</td>';
+
+    echo '</tr>';
+}
+echo '<table>'
 ?>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+    <?php
+}
+?>
 </body>
 </html>

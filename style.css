@@ -1,7 +1,13 @@
 .contact-clean {
     padding:80px 0;
   }
-  
+
+.refus{
+  text-align: center ;
+  background-color: red;
+  color: white;
+}
+
   @media (max-width:767px) {
     .contact-clean {
       padding:20px 0;
