@@ -38,7 +38,7 @@ $req = $bdd->query('SELECT  pers_nom, pers_prenom, mis_dateDeb, mis_dateFin, Vil
                 <a class="nav-link" href="paiementFrais.php">Paiement des frais</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="#">Parametrage</a>
+                <a class="nav-link" href="parametrage.php">Parametrage</a>
             </li>
         </ul>
     </div>
@@ -51,7 +51,7 @@ if(!isset($_SESSION['pers_responsable']) OR $_SESSION['pers_responsable'] == fal
 }
 elseif(isset($_SESSION['pers_responsable']) OR $_SESSION['pers_responsable'] == true){
 ?>
-    <h2>Validation des missions de vos subordonnées</h2>
+    <h2>Paiement des missions</h2>
 
 <?php
 
@@ -77,6 +77,8 @@ while ($reponse = $req->fetch()) {
     echo '</td>';
     echo '<td style="border: 1px solid">';
     echo $reponse['Vil_Nom'];
+    echo '</td>';
+    echo '<td>';
     echo '</td>';
     echo '<td style="border: 1px solid">';
     if ($reponse['mis_rembourser'] == 1) {

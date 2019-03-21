@@ -20,10 +20,10 @@ session_start();
         <a class="nav-link" href="validMissions.php">Validation des missions</a>
       </li>
       <li class="nav-item ">
-        <a class="nav-link" href="#">Paiement des frais</a>
+        <a class="nav-link" href="paiementFrais.php">Paiement des frais</a>
       </li>
       <li class="nav-item ">
-        <a class="nav-link" href="#">Parametrage</a>
+        <a class="nav-link" href="parametrage.php">Parametrage</a>
       </li>
 
     </ul>

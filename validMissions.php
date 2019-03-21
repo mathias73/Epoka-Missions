@@ -38,7 +38,7 @@ $req = $bdd->query('SELECT  pers_nom, pers_prenom, mis_dateDeb, mis_dateFin, Vil
                 <a class="nav-link" href="paiementFrais.php">Paiement des frais</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="#">Parametrage</a>
+                <a class="nav-link" href="parametrage.php">Parametrage</a>
             </li>
         </ul>
     </div>
