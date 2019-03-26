@@ -8,7 +8,8 @@ catch(Exception $e){
 }
 
 $requtf8 = $bdd->query("SET NAMES 'utf8'");
-$req = $bdd->query('SELECT Vil_Nom FROM ville ORDER BY Vil_Nom');
+$req = $bdd->query('SELECT Vil_Nom, ville_id FROM ville ORDER BY Vil_Nom');
+$reqAff = $bdd ->query('SELECT * FROM distance');
 
 ?>
 <!DOCTYPE html>
@@ -47,15 +48,47 @@ $req = $bdd->query('SELECT Vil_Nom FROM ville ORDER BY Vil_Nom');
     <input type="submit" placeholder="Valider">
 </form><br>
 <h2>Distance entre les villes</h2>
-<form name="distanceVille" method="post" action="">
-    <label>De : <select name="distance"><?php while ($data = $req->fetch()) {echo"<option>" .$data[0]."<option>";}; ?> </select>
-        à : <select name="distance"><?php while ($data = $req->fetch()) {echo"<option>" .$data[0]."<option>";}; ?></select> </label>
+<form name="distanceVille" method="post" action="formParametrage.php">
+    <?php
+    $list ='';
+
+    foreach($req as $row){
+        $list.= '<option value="'.$row[1].'">' .$row[0].'<option>';
+    }
+    ?>
+    <label>De : <select name="distance1"><?= $list;?> </select>
+        à : <select name="distance2"><?=$list; ?></select> </label>
 <br>
-    <label>Distance en Km : <input type="text"></label>
+    <label>Distance en Km : <input type="text" name="distKm"></label>
     <input type="submit" placeholder="Valider">
 </form>
 <br>
 <h2>Distance entre villes déjà saisies</h2>
+<?php
+
+echo '<table style="border: 1px solid; margin-left: 50px;">';
+echo '<tr>';
+echo '<td style="border: 1px solid">Ville debut</td><td style="border: 1px solid">Ville Fin</td><td style="border: 1px solid">Distance</td>';
+echo '</tr>';
+while ($reponse = $reqAff->fetch()) {
+
+    echo '<tr>';
+
+    echo '<td style="border: 1px solid">';
+    echo $reponse['dist_Villedeb'];
+    echo '</td>';
+    echo '<td style="border: 1px solid">';
+    echo $reponse['dist_Villefin'];
+    echo '</td>';
+    echo '<td style="border: 1px solid">';
+    echo $reponse['dist_km'];
+    echo '</td>';
+
+
+    echo '</tr>';
+}
+echo '<table>'
+?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
 </body>
