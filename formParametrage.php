@@ -11,14 +11,19 @@ $villeDeb = $_POST['distance1'];
 $villeFin = $_POST['distance2'];
 $distKm = $_POST['distKm'];
 
-var_dump($villeDeb);
-var_dump($distKm);
-var_dump($villeFin);
+if(empty($villeDeb) || empty($villeFin) || empty($distKm)) {
 
-$req = $bdd->prepare('INSERT INTO distance(dist_Villedeb, dist_Villefin,dist_km) VALUES (:villeDeb,:villeFin,:distKm)');
-$req->bindValue(':villeDeb', $villeDeb, PDO::PARAM_INT);
-$req->bindValue(':villeFin', $villeFin, PDO::PARAM_INT);
-$req->bindValue(':distKm', $distKm, PDO::PARAM_INT);
-$req->execute();
+    echo "Erreur : Veuillez saisir tout les champs ! ";
+    echo "<a href='parametrage.php'>Retour</a>";
 
+
+}else {
+
+    $req = $bdd->prepare('INSERT INTO distance(dist_Villedeb, dist_Villefin,dist_km) VALUES (:villeDeb,:villeFin,:distKm)');
+    $req->bindValue(':villeDeb', $villeDeb, PDO::PARAM_INT);
+    $req->bindValue(':villeFin', $villeFin, PDO::PARAM_INT);
+    $req->bindValue(':distKm', $distKm, PDO::PARAM_INT);
+    $req->execute();
+
+}
 ?>

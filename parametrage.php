@@ -9,7 +9,8 @@ catch(Exception $e){
 
 $requtf8 = $bdd->query("SET NAMES 'utf8'");
 $req = $bdd->query('SELECT Vil_Nom, ville_id FROM ville ORDER BY Vil_Nom');
-$reqAff = $bdd ->query('SELECT * FROM distance');
+$reqRemb = $bdd->query('SELECT * FROM paiement');
+$reqVille=$bdd->query('SELECT v1.Vil_Nom AS villeA, v2.Vil_Nom AS villeB, dist_km FROM distance INNER JOIN ville AS v1 ON dist_Villedeb = v1.ville_id INNER JOIN ville AS v2 ON dist_Villefin = v2.ville_id ');
 
 ?>
 <!DOCTYPE html>
@@ -42,9 +43,9 @@ $reqAff = $bdd ->query('SELECT * FROM distance');
 </nav>
 <h2>Paramétrage de l'application</h2>
 <h3>Montant du remboursement au km</h3><br>
-<form name="montantRemboursementKm" method="post" action="">
+<form name="montantRemboursementKm" method="post" action="formMontant.php">
     <label>Remboursement au Km : <input type="text" name="rembKm" id="rembKm"></label><br>
-    <label>Indemnité d'hébergement : <input type="text" name="indheb" id="indheb"></label><br>
+    <label>Indemnité d'hébergement : <input type="text" name="indHeb" id="indheb"></label><br>
     <input type="submit" placeholder="Valider">
 </form><br>
 <h2>Distance entre les villes</h2>
@@ -70,22 +71,12 @@ echo '<table style="border: 1px solid; margin-left: 50px;">';
 echo '<tr>';
 echo '<td style="border: 1px solid">Ville debut</td><td style="border: 1px solid">Ville Fin</td><td style="border: 1px solid">Distance</td>';
 echo '</tr>';
-while ($reponse = $reqAff->fetch()) {
-
-    echo '<tr>';
-
-    echo '<td style="border: 1px solid">';
-    echo $reponse['dist_Villedeb'];
-    echo '</td>';
-    echo '<td style="border: 1px solid">';
-    echo $reponse['dist_Villefin'];
-    echo '</td>';
-    echo '<td style="border: 1px solid">';
-    echo $reponse['dist_km'];
-    echo '</td>';
-
-
-    echo '</tr>';
+while ($row = $reqVille->fetch()){
+    echo '<tr>
+<td style="border: 1px solid">'.$row['villeA'].'</td>
+<td style="border: 1px solid">'.$row['villeB'].'</td>
+<td style="border: 1px solid">'.$row['dist_km'].'</td>
+</tr>';
 }
 echo '<table>'
 ?>
