@@ -7,7 +7,7 @@ catch(Exception $e){
     die("Erreur :" . $e->getMessage());
 }
 
-$req = $bdd->query('SELECT  pers_nom, pers_prenom, mis_dateDeb, mis_dateFin, Vil_Nom, mis_rembourser 
+$req = $bdd->query('SELECT  mis_id, pers_nom, pers_prenom, mis_dateDeb, mis_dateFin, Vil_Nom, mis_rembourser 
                                               FROM personnel, mission, ville 
                                               WHERE mis_PersoId = pers_id AND mis_VilleId = ville_Id');
 
@@ -62,7 +62,6 @@ echo '</tr>';
 while ($reponse = $req->fetch()) {
 
     echo '<tr>';
-
     echo '<td style="border: 1px solid">';
     echo $reponse['pers_nom'];
     echo '</td>';
@@ -81,13 +80,12 @@ while ($reponse = $req->fetch()) {
     echo '<td>';
     echo '</td>';
     echo '<td style="border: 1px solid">';
-    if ($reponse['mis_rembourser'] == 1) {
-        echo 'Rembourser';
-    } else {
-        echo 'Non rembourser';
-    };
+    if($reponse['mis_rembourser'] == 1){
+        echo 'Remboursée';
+    }else {
+        echo '<a href="missRemboursement.php?id=' . $reponse['mis_id'] . '"><input type="button" value="Rembourser"> </a>';
+    }
     echo '</td>';
-
     echo '</tr>';
 }
 echo '<table>'

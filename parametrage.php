@@ -9,8 +9,7 @@ catch(Exception $e){
 
 $requtf8 = $bdd->query("SET NAMES 'utf8'");
 $req = $bdd->query('SELECT Vil_Nom, ville_id FROM ville ORDER BY Vil_Nom');
-$reqRemb = $bdd->query('SELECT * FROM paiement');
-$reqVille=$bdd->query('SELECT v1.Vil_Nom AS villeA, v2.Vil_Nom AS villeB, dist_km FROM distance INNER JOIN ville AS v1 ON dist_Villedeb = v1.ville_id INNER JOIN ville AS v2 ON dist_Villefin = v2.ville_id ');
+$reqVille=$bdd->query('SELECT v1.Vil_Nom AS villeA, v2.Vil_Nom AS villeB, dist_km FROM distance INNER JOIN ville AS v1 ON dist_Villedeb = v1.ville_id INNER JOIN ville AS v2 ON dist_Villefin = v2.ville_id ORDER BY dist_km');
 
 ?>
 <!DOCTYPE html>
@@ -54,12 +53,12 @@ $reqVille=$bdd->query('SELECT v1.Vil_Nom AS villeA, v2.Vil_Nom AS villeB, dist_k
     $list ='';
 
     foreach($req as $row){
-        $list.= '<option value="'.$row[1].'">' .$row[0].'<option>';
+        $list.= '<option value="'.$row[1].'">' .$row[0].'</option>';
     }
     ?>
     <label>De : <select name="distance1"><?= $list;?> </select>
         à : <select name="distance2"><?=$list; ?></select> </label>
-<br>
+    <br>
     <label>Distance en Km : <input type="text" name="distKm"></label>
     <input type="submit" placeholder="Valider">
 </form>

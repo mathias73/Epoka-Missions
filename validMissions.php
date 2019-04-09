@@ -7,7 +7,7 @@ catch(Exception $e){
     die("Erreur :" . $e->getMessage());
 }
 
-$req = $bdd->query('SELECT  pers_nom, pers_prenom, mis_dateDeb, mis_dateFin, Vil_Nom, mis_valider, mis_rembourser 
+$req = $bdd->query('SELECT  mis_id, pers_nom, pers_prenom, mis_dateDeb, mis_dateFin, Vil_Nom, mis_valider, mis_rembourser 
                                               FROM personnel, mission, ville 
                                               WHERE mis_PersoId = pers_id AND mis_VilleId = ville_Id');
 
@@ -79,17 +79,15 @@ while ($reponse = $req->fetch()) {
     echo $reponse['Vil_Nom'];
     echo '</td>';
     echo '<td style="border: 1px solid">';
-    if ($reponse['mis_valider'] == 1) {
-        echo 'Valider';
+    if ($reponse['mis_valider'] == 0) {
+        echo '<a href="misValidation.php?id=' . $reponse['mis_id'] . '"><input type="button" value="Valider"> </a>';
     } else {
-        echo 'Non valider';
-    };
-    echo '</td>';
-    echo '<td style="border: 1px solid">';
+        echo 'Validée';
+    }
     if ($reponse['mis_rembourser'] == 1) {
-        echo 'Rembourser';
+        echo ', Rembourser';
     } else {
-        echo 'Non rembourser';
+        echo ', Non rembourser';
     };
     echo '</td>';
 
