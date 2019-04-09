@@ -11,11 +11,10 @@ $req = $bdd->query('SELECT  mis_id, pers_nom, pers_prenom, mis_dateDeb, mis_date
                                               FROM personnel, mission, ville
                                               WHERE mis_PersoId = pers_id AND mis_VilleId = ville_Id');
 
-$reqMontant = $bdd ->query( 'SELECT ((DATEDIFF(mis_dateFin, mis_dateDeb) + 1) * indemnite) as PrixJour,
-                                            (ROUND(dist_km * remboursement, 2)) as PrixKm, 
-                                            (((DATEDIFF(mis_dateFin, mis_DateDeb) + 1) * indemnite) + (ROUND(dist_km * remboursement, 2))) as PrixTotal 
-                                    FROM mission, paiement, distance 
-                                    WHERE dist_Villefin = mis_VilleId');
+$stringreqMontant ='SELECT (((DATEDIFF(mis_dateFin, mis_DateDeb) + 1) * indemnite) + (ROUND(dist_km * remboursement, 2))) as PrixTotal 
+FROM mission, paiement, distance 
+WHERE dist_Villefin = mis_VilleId
+AND mis_id = :idMis';
 
 
 ?>
@@ -64,12 +63,12 @@ echo '<table style="border: 1px solid; margin-left: 50px; text-align: center; ;"
 echo '<tr>';
 echo '<td style="border: 1px solid">Nom</td><td style="border: 1px solid">Prenom</td><td style="border: 1px solid">Debut mission</td><td style="border: 1px solid">Fin mission</td><td style="border: 1px solid">Lieu Mission</td><td style="border: 1px solid">Montant</td><td style="border: 1px solid">Paiement</td>';
 echo '</tr>';
-$montants = array();
-foreach($reqMontant as $val){
-    array_push($montants,$val['PrixTotal']);
-}
-$index =0;
+
 while ($reponse = $req->fetch()) {
+    $reqMontant = $bdd->prepare($stringreqMontant);
+    $reqMontant->bindParam(':idMis',$reponse['mis_id'],PDO::PARAM_INT);
+    $reqMontant->execute();
+    $montant = $reqMontant->fetch();
         echo '<tr>
          <td style="border: 1px solid">'
          .$reponse['pers_nom'].
@@ -86,12 +85,12 @@ while ($reponse = $req->fetch()) {
          <td style="border: 1px solid">'
          .$reponse['Vil_Nom'].
          '</td >';
-        if($montants[$index] == 0){
-            echo '<td style="border: 1px solid"> parametrage /!\ </td>';
-        }else {
+        if($montant[0] != ''){
             echo ' <td style="border: 1px solid">'
-                . $montants[$index] . ' €' .
+                . $montant[0] . ' €' .
                 '</td style="border: 1px solid" >';
+        }else {
+            echo '<td style="border: 1px solid"> Distance non définie </td>';
         }
     if($reponse['mis_rembourser'] == 1){
         echo '<td style="border: 1px solid">Remboursée</td>';
@@ -99,7 +98,6 @@ while ($reponse = $req->fetch()) {
         echo '<td style="border: 1px solid"><a href="missRemboursement.php?id=' . $reponse['mis_id'] . '"><input type="button" value="Rembourser"> </a></td>';
     }
     echo '</tr>';
-    $index++;
 }
 echo '<table>'
 ?>
