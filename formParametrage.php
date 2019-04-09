@@ -26,4 +26,7 @@ if(empty($villeDeb) || empty($villeFin) || empty($distKm)) {
     $req->execute();
 
 }
+
+header('Location: parametrage.php');
+
 ?>
