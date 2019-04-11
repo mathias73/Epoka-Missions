@@ -48,12 +48,12 @@ AND mis_id = :idMis';
     </div>
 </nav>
 <?php
-if(!isset($_SESSION['pers_responsable']) OR $_SESSION['pers_responsable'] == false){
+if(!isset($_SESSION['pers_salarie']) OR $_SESSION['pers_salarie'] == false){
     ?>
     <p class="refus">Accés refusé !</p>
 <?php
 }
-elseif(isset($_SESSION['pers_responsable']) OR $_SESSION['pers_responsable'] == true){
+elseif(isset($_SESSION['pers_salarie']) OR $_SESSION['pers_salarie'] == true){
 ?>
     <h2>Paiement des missions</h2>
 

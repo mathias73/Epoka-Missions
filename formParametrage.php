@@ -11,7 +11,7 @@ $villeDeb = $_POST['distance1'];
 $villeFin = $_POST['distance2'];
 $distKm = $_POST['distKm'];
 
-if(empty($villeDeb) || empty($villeFin) || empty($distKm)) {
+if(empty($villeDeb) || empty($villeFin) || empty($distKm) || !filter_var($distKm, FILTER_VALIDATE_INT)) {
 
     echo "Erreur : Veuillez saisir tout les champs ! ";
     echo "<a href='parametrage.php'>Retour</a>";
@@ -25,8 +25,8 @@ if(empty($villeDeb) || empty($villeFin) || empty($distKm)) {
     $req->bindValue(':distKm', $distKm, PDO::PARAM_INT);
     $req->execute();
 
+    header('Location: parametrage.php');
 }
 
-header('Location: parametrage.php');
 
 ?>

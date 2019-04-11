@@ -17,7 +17,7 @@ if(empty($rembKm) || empty($indHeb)) {
 
 
 }else{
-    $req = $bdd->prepare('INSERT INTO paiement(remboursement, indemnite) VALUES (:rembKm,:indHeb)');
+    $req = $bdd->prepare('UPDATE paiement SET remboursement = :rembKm, indemnite = :indHeb');
     $req->bindValue(':rembKm', $rembKm, PDO::PARAM_INT);
     $req->bindValue(':indHeb', $indHeb, PDO::PARAM_INT);
     $req->execute();

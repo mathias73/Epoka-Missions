@@ -40,6 +40,14 @@ $reqVille=$bdd->query('SELECT v1.Vil_Nom AS villeA, v2.Vil_Nom AS villeB, dist_k
         </ul>
     </div>
 </nav>
+<?php
+if(!isset($_SESSION['pers_salarie']) OR $_SESSION['pers_salarie'] == false){
+    ?>
+    <p class="refus">Accés refusé !</p>
+    <?php
+}
+elseif(isset($_SESSION['pers_salarie']) OR $_SESSION['pers_salarie'] == true){
+?>
 <h2>Paramétrage de l'application</h2>
 <h3>Montant du remboursement au km</h3><br>
 <form name="montantRemboursementKm" method="post" action="formMontant.php">
@@ -81,5 +89,10 @@ echo '</table>'
 ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+
+    <?php
+}
+?>
+
 </body>
 </html>
